@@ -1,47 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const Workout = require('../models/workout');
+// models/workout.js
+const mongoose = require('mongoose');
 
-// CREATE Workout
-router.post('/', async (req, res) => {
-  try {
-    const { name, duration, date } = req.body;
-    await Workout.create({ name, duration, date });
-    res.redirect('/workouts');
-  } catch (error) {
-    res.status(500).send(error.message);
+// Define a workout schema
+const workoutSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  duration: {
+    type: Number, // in minutes
+    required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 
-// READ Workouts
-router.get('/', async (req, res) => {
-  try {
-    const workouts = await Workout.find();
-    res.render('workouts', { workouts });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+// Create a model from the schema
+const Workout = mongoose.model('Workout', workoutSchema);
 
-// UPDATE Workout
-router.post('/edit/:id', async (req, res) => {
-  try {
-    const { name, duration, date } = req.body;
-    await Workout.findByIdAndUpdate(req.params.id, { name, duration, date });
-    res.redirect('/workouts');
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-// DELETE Workout
-router.post('/delete/:id', async (req, res) => {
-  try {
-    await Workout.findByIdAndDelete(req.params.id);
-    res.redirect('/workouts');
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-module.exports = router;
+module.exports = Workout;
