@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workouts</title>
 </head>
 <body>
   <h1>All Workouts</h1>
   <ul>
     <% workouts.forEach(workout => { %>
-      <li><%= workout.name %> - <%= workout.description %></li>
+      <li>
+        <strong>Name:</strong> <%= workout.name %><br>
+        <strong>Duration:</strong> <%= workout.duration %> minutes<br>
+        <strong>Date:</strong> <%= new Date(workout.date).toLocaleDateString() %><br>
+      </li>
     <% }) %>
   </ul>
+  <a href="/">Back to Home</a>
 </body>
 </html>
