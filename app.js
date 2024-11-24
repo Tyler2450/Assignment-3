@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', indexRouter);
 
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://100912534:ThunderT48@cluster0.grftw.mongodb.net/workoutTracker?retryWrites=true&w=majority', {
@@ -27,9 +28,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://100912534:ThunderT48@
 })
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.log('MongoDB connection error: ', err));
-
-
-app.use('/', indexRouter);
 
 
 app.use((req, res, next) => {

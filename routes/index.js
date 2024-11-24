@@ -5,14 +5,15 @@ const router = express.Router();
 // GET all workouts
 router.get('/workouts', async (req, res) => {
   try {
-    const workouts = await Workout.find();
-    res.render('workouts', { workouts });
+    const workouts = await Workout.find();  // Fetch all workouts from DB
+    res.render('workouts', { workouts });  // Render the 'workouts.ejs' page
   } catch (err) {
-    res.status(500).send({
-      message: 'Something went wrong!',
-      error: err.message,
-    });
+    console.error('Error fetching workouts:', err);
+    res.status(500).send('Something went wrong!');
   }
+});
+router.get('/', (req, res) => {
+  res.render('index');  // Ensure this file exists in the views folder
 });
 
 // POST to add a new workout
