@@ -1,26 +1,25 @@
 const express = require('express');
-const Workout = require('../models/workout'); // Make sure this is the correct path
+const Workout = require('../models/workout'); 
 const router = express.Router();
 
-// GET all workouts
+
 router.get('/workouts', async (req, res) => {
   try {
-    const workouts = await Workout.find();  // Fetch all workouts from DB
-    res.render('workouts', { workouts });  // Render the 'workouts.ejs' page
+    const workouts = await Workout.find();  
+    res.render('workouts', { workouts });  
   } catch (err) {
     console.error('Error fetching workouts:', err);
     res.status(500).send('Something went wrong!');
   }
 });
 router.get('/', (req, res) => {
-  res.render('index');  // Ensure this file exists in the views folder
+  res.render('index');  
 });
 
-// POST to add a new workout
-router.post('/workouts', async (req, res) => {
-  const { name, duration, date } = req.body; // Destructure the data from the form
 
-  // Create a new workout document
+router.post('/workouts', async (req, res) => {
+  const { name, duration, date } = req.body; 
+  
   const newWorkout = new Workout({
     name: name,
     duration: duration,
@@ -28,9 +27,9 @@ router.post('/workouts', async (req, res) => {
   });
 
   try {
-    // Save the new workout to the database
+  
     await newWorkout.save();
-    res.redirect('/workouts'); // Redirect back to the workouts page to see the updated list
+    res.redirect('/workouts'); 
   } catch (err) {
     res.status(500).send({
       message: 'Something went wrong!',
