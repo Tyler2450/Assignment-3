@@ -1,18 +1,35 @@
 const express = require('express');
+const Workout = require('../models/workout'); // Make sure this is the correct path
 const router = express.Router();
-const Workout = require('../models/workout');
 
-// Home route
-router.get('/', (req, res) => {
-  res.render('index', { title: 'Home' }); // Your home page
-});
-
-// Workouts route
+// GET all workouts
 router.get('/workouts', async (req, res) => {
   try {
-    const workouts = await Workout.find(); // Fetch all workouts
-    console.log(workouts);  // Check that all data is being fetched
-    res.render('workouts', { workouts }); // Pass workouts data to the view
+    const workouts = await Workout.find();
+    res.render('workouts', { workouts });
+  } catch (err) {
+    res.status(500).send({
+      message: 'Something went wrong!',
+      error: err.message,
+    });
+  }
+});
+
+// POST to add a new workout
+router.post('/workouts', async (req, res) => {
+  const { name, duration, date } = req.body; // Destructure the data from the form
+
+  // Create a new workout document
+  const newWorkout = new Workout({
+    name: name,
+    duration: duration,
+    date: new Date(date),
+  });
+
+  try {
+    // Save the new workout to the database
+    await newWorkout.save();
+    res.redirect('/workouts'); // Redirect back to the workouts page to see the updated list
   } catch (err) {
     res.status(500).send({
       message: 'Something went wrong!',
