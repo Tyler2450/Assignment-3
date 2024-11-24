@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
-
+require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://100912534:ThunderT48@cluster0.grftw.mongodb.net/workoutTracker?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,

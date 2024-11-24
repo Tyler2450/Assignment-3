@@ -1,36 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Workouts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>All Workouts</h1>
-  <ul>
-    <% workouts.forEach(workout => { %>
-      <li>
-        <strong>Name:</strong> <%= workout.name %><br>
-        <strong>Duration:</strong> <%= workout.duration %> minutes<br>
-        <strong>Date:</strong> <%= new Date(workout.date).toLocaleDateString() %><br>
-      </li>
-    <% }) %>
-  </ul>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Workout Tracker</h1>
 
-  <!-- Form to add a new workout -->
-  <h2>Add a New Workout</h2>
-  <form action="/workouts" method="POST">
-    <label for="name">Workout Name:</label>
-    <input type="text" name="name" required><br>
+    <!-- Add Workout Form -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <h3 class="card-title text-secondary">Add a New Workout</h3>
+        <form action="/workouts" method="POST" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Name:</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Duration (minutes):</label>
+            <input type="number" name="duration" class="form-control" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Date:</label>
+            <input type="date" name="date" class="form-control" required>
+          </div>
+          <div class="col-12 text-center mt-3">
+            <button type="submit" class="btn btn-primary">Add Workout</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    <label for="duration">Duration (in minutes):</label>
-    <input type="number" name="duration" required><br>
+    <!-- Workout List -->
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title text-secondary">Workout List</h3>
+        <% if (workouts.length > 0) { %>
+          <ul class="list-group">
+            <% workouts.forEach(workout => { %>
+              <li class="list-group-item">
+                <strong><%= workout.name %></strong> - <%= workout.duration %> mins 
+                - <span class="text-muted"><%= new Date(workout.date).toDateString() %></span>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p class="text-muted">No workouts added yet. Start tracking!</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
 
-    <label for="date">Date:</label>
-    <input type="date" name="date" required><br>
-
-    <button type="submit">Add Workout</button>
-  </form>
-
-  <a href="/">Back to Home</a>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
